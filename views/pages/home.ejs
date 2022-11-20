@@ -15,12 +15,20 @@
         <th>Shortened URL</th>
       </thead>
       <tbody>
-      <tr>
-        <td></td>
-      </tr>
+      <% for(const shortUrl in urlIndex) { %>
+        <tr>
+          <td><%= shortUrl %> </td>  
+          <td><%= urlIndex[shortUrl] %> </td>
+        </tr>
+      <% } %>
       </tbody>
     </table>
   </div>
+  <form action ="/home" id="newUrl" method ="GET">
+    <input type="text">
+    <input type="submit">
+  </form>
+
 </main>
 
 <footer>
@@ -30,4 +38,3 @@
 </html>
 
 
-<% console.log(<%=URL%>) %>
