@@ -1,19 +1,17 @@
-//express and node and variable.
 const express = require('express');
 const bodyParser = require('body-parser');
 const app = express();
 const port = 3000;
 const cookieParser = require('cookie-parser');
 let logInCheck = false;
-//setting view engine.
+
 app.set('view engine','ejs');
-//call bodyParser
+
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended: true}));
 
 const getUrlFromShort = (shortUrl) => urlIndex[shortUrl];
 
-//function to check if user exists
 function userExists(username) {
   if (username in users) {
       return users[username];
@@ -21,12 +19,11 @@ function userExists(username) {
     return false;
   };
 };
-//function to check if username is valid
+
 function passCheck(userPassword, loginPassword) {
   return userPassword === loginPassword;
 };
 
-//function that checks if the URL they are trying to add is duplicate or not.
 
 function urlChecker(obj, user, pass) {
   if (Object.values(urlIndex).includes(val)){
@@ -36,8 +33,6 @@ function urlChecker(obj, user, pass) {
   };
 };
 
-
-//ID creator.
 function makeId(){
   let result = '';
   const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
@@ -47,14 +42,13 @@ function makeId(){
   return result;
 };
 
-//list of URLS
 const urlIndex = {
   "x21jfl" : "https://www.google.ca",
   "va31km" : "https://ca.yahoo.com",
   "y34sfa" : "https://www.youtube.com",
   "hello" : "https://www.twitter.com"
 };
-//list of logins
+
 const users = {
   "ahmed.dahi@shopify.com" : "sohelpmegod",
   "dog.dog@gmail.com" : "passpasss",
@@ -62,8 +56,6 @@ const users = {
   "helphelp@apple.ca" : "doggypie",
   "a@s.com" : "p"
 };
-
-
 
 // GET REQUESTS
 //checks if user is logged in if not redirects them to log in page.
