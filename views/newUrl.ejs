@@ -9,15 +9,15 @@
 <main>
   
       <head>
-        <%- include('../partials/header'); %>
+        <%- include('partials/_header'); %>
       </head>
   
   
   
   <form action="/urls" method="post">
     <div>
-      <label for="name">Enter your URL for Shortener: </label>
-      <input type="text" name="inputField" id="newUrl" required>
+      <label for ="url">Enter your URL for Shortener: </label>
+      <input type="text" name="url" id="newUrl" required>
     </div>
     <div>
       <input type="submit" value="Add new Shortend URL!">
@@ -28,7 +28,7 @@
 </main>
 
 <footer>
-  <%- include('../partials/footer'); %>
+  <%- include('partials/_footer'); %>
 </footer>
 
 </body>
