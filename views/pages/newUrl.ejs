@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+</head>
+<body class="container">
+<header>
+</header>
+
+<main>
+  
+      <head>
+        <%- include('../partials/header'); %>
+      </head>
+  
+  
+  
+  <form action="/urls" method="post">
+    <div>
+      <label for="name">Enter your URL for Shortener: </label>
+      <input type="text" name="inputField" id="newUrl" required>
+    </div>
+    <div>
+      <input type="submit" value="Add new Shortend URL!">
+    </div>
+  </form>
+  
+
+</main>
+
+<footer>
+  <%- include('../partials/footer'); %>
+</footer>
+
+</body>
+</html>
+

@@ -3,18 +3,35 @@ const express = require('express');
 const bodyParser = require('body-parser');
 const app = express();
 const port = 3000;
-
+const cookieParser = require('cookie-parser');
+let logInCheck = true;
 //setting view engine.
 app.set('view engine','ejs');
 //call bodyParser
+app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended: true}));
 
-app.use(bodyParser.json());
-
-//function to get the value and output the key.
-function getURLKey(obj, value) {
-  return Object.keys(URL).find(key => obj[key] === value);
+//function to get the key and output the value.
+function getUrlValue(obj, key) {
+  return Object.values(obj).find(value => obj[key] === value);;
 };
+//function to check if username is valid
+function userPassCheck(obj, value) {
+  if (Object.values(obj).find(value => obj[key])){
+
+  };
+};
+
+//function that checks if the URL they are trying to add is duplicate or not.
+
+function urlChecker(obj, user, pass) {
+  if (Object.values(urlIndex).includes(val)){
+    return "Your URL has not been added as it is already in our Database";
+  } else {
+    return "Your URL has been added, please go to the URL list to check on this URL";
+  };
+};
+
 
 //ID creator.
 function makeId(){
@@ -33,38 +50,94 @@ const urlIndex = {
   "y34sfa" : "https://www.youtube.com",
   "hello" : "https://www.twitter.com"
 };
+//list of logins
+const userpass = {
+  "ahmed.dahi@shopify.com" : "sohelpmegod",
+  "dog.dog@gmail.com" : "passpasss",
+  "fireemoji@yahoo.ca" : "fire",
+  "helphelp@apple.ca" : "doggypie"
+};
 
-//homepage
+//checks if user is logged in if not redirects them to log in page. 
+//If they are it will show them the url list.
 app.get('/', (req, res) => {
-  res.send('First Node Server > thanks Gonzo');
+  if (logInCheck == false){
+    res.redirect('/login');
+  } else {
+    res.redirect('/urls')
+  };
 });
 
-
-//renders table as well as gets input for the url shortener.
-app.get('/home', function(req, res){
+//rending page for URL output.
+app.get('/urls', function(req, res){
   app.locals.urlIndex = urlIndex;
-  res.render('pages/home');
-  var newUrl = req.body.newUrl;
-  urlIndex[makeId()] = newUrl;
-  console.log(newUrl)
+  res.render('pages/urlList');
+});
+
+//rending page for adding new URLs
+app.get('/urls/new', function(req, res){
+  app.locals.urlIndex = urlIndex;
+  res.render('pages/newUrl');
+});
+//posting form data to the URLS page
+app.post('/urls', function(req, res){
+  let newUrl = req.body.inputField;
+  let key = makeId();
+  app.locals.urlIndex = urlIndex;
+  urlIndex[key] = newUrl;
+  res.redirect('/urls/' + key)
 
 });
 
-app.post('/home', function(req, res){
- 
+app.get('/urls/:id', function(req, res){
+  let key = req.params.id;
+  app.locals.key = key;
+  let value = getUrlValue(urlIndex, key);
+  app.locals.value = value;
+  if (value != undefined) {
+    res.render('pages/urlpage');
+  } else {
+    res.render('pages/404');
+  }
+});
+//deleting URLs
+app.post('/urls/:id/delete', function(req, res){
+  app.locals.urlIndex = urlIndex;
+  let key = req.params.id;
+  console.log(key);
+  delete urlIndex[key];
+  res.redirect('/urls');
+});
+//posting url updates
+app.post('/urls/:id', function(req, res){
+  let key = req.params.id;
+  let urlUpdate = req.body.inputField
+  app.locals.urlIndex = urlIndex;
+  urlIndex[key] = urlUpdate;
+  res.redirect('/urls');
+
 });
 
+//login page
+app.get('/login', function(req, res){
+  res.render('pages/login'); 
+});
 
 //if there is a shortened URL present it will redirect to the correct website, or else will bring them to a 404 page.
-app.get('/*', (req, res) => {
-    var url = req.url;
-    var external = (getURLKey(urlIndex, url.slice(1)));
+app.get('/u/:id', function(req, res){
+    let url = req.params.id;
+    
+    let external = (getUrlValue(urlIndex, url));
     if (external != undefined) {
       res.redirect(external);
     } else {
-      res.send('404 page not found');
+      res.render('pages/404');
     }
 });
+
+
+
+
 
 app.listen(port, () => {
   console.log(`URL Shortener App is listening on port ${port}`)

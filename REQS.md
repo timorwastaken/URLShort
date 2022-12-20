@@ -14,59 +14,59 @@
 
 - `GET /`
   - If user is logged in:
-    - [ ] (Minor) redirect to `/urls`
+    - [x] (Minor) redirect to `/urls`
   - If user is not logged in:
-    - [ ] (Minor) redirect to `/login`
+    - [x] (Minor) redirect to `/login`
 - `GET /urls`
   - If user is logged in:
     - returns HTML with:
-    - [ ] the site header (see Display Requirements above)
-    - [ ] a list (or table) of URLs the user has created, each list item containing:
-      - [ ] a short URL
-      - [ ] the short URL's matching long URL
-      - [ ] an edit button which makes a GET request to `/urls/:id`
-      - [ ] a delete button which makes a POST request to `/urls/:id/delete`
-      - [ ] (Stretch) the date the short URL was created
-      - [ ] (Stretch) the number of times the short URL was visited
-      - [ ] (Stretch) the number of unique visits for the short URL
+    - [x] the site header (see Display Requirements above)
+    - [x] a list (or table) of URLs the user has created, each list item containing:
+    - [x] a short URL
+    - [x] the short URL's matching long URL
+    - [x] an edit button which allows you to edit.
+    - [ ] a delete button which makes a POST request to `/urls/:id/delete`
+    - [ ] (Stretch) the date the short URL was created
+    - [ ] (Stretch) the number of times the short URL was visited
+    - [ ] (Stretch) the number of unique visits for the short URL
     - [ ] (Minor) a link to "Create a New Short Link" which makes a GET request to `/urls/new`
   - If user is not logged in:
     - [ ] returns HTML with a relevant error message
 - `GET /urls/new`
   - If user is logged in:
-    - [ ] returns HTML with:
+    - [x] returns HTML with:
     - [ ] the site header (see Display Requirements above)
-    - [ ] a form which contains:
-      - [ ] a text input field for the original (long) URL
-      - [ ] a submit button which makes a POST request to `/urls/`
+    - [x] a form which contains:
+      - [x] a text input field for the original (long) URL
+      - [x] a submit button which makes a POST request to `/urls/`
   - If user is not logged in:
     - [ ] redirects to the `/login` page
 - `GET /urls/:id`
   - if user is logged in and owns the URL for the given ID:
-    - [ ] returns HTML with:
-    - [ ] the site header (see Display Requirements above)
-    - [ ] the short URL (for the given ID)
-    - [ ] a form which contains:
-      - [ ] the corresponding URL
-      - [ ] an update button which makes a POST request to `/urls/:id`
+    - [x] returns HTML with:
+    - [x] the site header (see Display Requirements above)
+    - [x] the short URL (for the given ID)
+    - [x] a form which contains:
+      - [x] the corresponding URL
+      - [x] an update button which makes a POST request to `/urls/:id`
     - [ ] (Stretch) the date the short URL was created
     - [ ] (Stretch) the number of times the short URL was visited
     - [ ] (Stretch) the number of unique visits for the short URL
   - if a URL for the given ID does not exist
-    - [ ] (Minor) returns HTML with a relevant error message
+    - [x] (Minor) returns HTML with a relevant error message
   - if user is not logged in:
     - [ ] returns HTML with a relevant error message
   - if user is logged in but does not own the URL with the given ID:
     - [ ] returns HTML with a relevant error message
 - `GET /u/:id`
   - if URL for the given ID exists:
-    - [ ] redirects to the corresponding long URL
+    - [x] redirects to the corresponding long URL
   - if URL for the given ID does not exist:
-    - [ ] (Minor) returns HTML with a relevant error message
+    - [x] (Minor) returns HTML with a relevant error message
 - `POST /urls`
   - if user is logged in
-    - [ ] generates a short URL, saves it, and associates it with the user
-    - [ ] redirects to `/urls/:id`, where `:id` matches the ID of the newly saved URL
+    - [1/2] generates a short URL, saves it, and associates it with the user
+    - [1/2] redirects to `/urls/:id`, where `:id` matches the ID of the newly saved URL
   - if user is not logged in:
     - [ ] (Minor) returns HTML with a relevant error message
 - `POST /urls/:id`
