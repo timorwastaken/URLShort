@@ -4,7 +4,7 @@ const bodyParser = require('body-parser');
 const app = express();
 const port = 3000;
 const cookieParser = require('cookie-parser');
-let logInCheck = true;
+let logInCheck = false;
 //setting view engine.
 app.set('view engine','ejs');
 //call bodyParser
@@ -15,11 +15,17 @@ app.use(bodyParser.urlencoded({extended: true}));
 function getUrlValue(obj, key) {
   return Object.values(obj).find(value => obj[key] === value);;
 };
+//function to check if user exists
+function userExists(username) {
+  if (username in users) {
+      return users[username];
+  }else {
+    return false;
+  }; 
+};
 //function to check if username is valid
-function userPassCheck(obj, value) {
-  if (Object.values(obj).find(value => obj[key])){
-
-  };
+function passCheck(userPassword, loginPassword) {
+  return userPassword === loginPassword;
 };
 
 //function that checks if the URL they are trying to add is duplicate or not.
@@ -51,13 +57,17 @@ const urlIndex = {
   "hello" : "https://www.twitter.com"
 };
 //list of logins
-const userpass = {
+const users = {
   "ahmed.dahi@shopify.com" : "sohelpmegod",
   "dog.dog@gmail.com" : "passpasss",
   "fireemoji@yahoo.ca" : "fire",
-  "helphelp@apple.ca" : "doggypie"
+  "helphelp@apple.ca" : "doggypie",
+  "a@s.com" : "p"
 };
 
+
+
+// GET REQUESTS
 //checks if user is logged in if not redirects them to log in page. 
 //If they are it will show them the url list.
 app.get('/', (req, res) => {
@@ -71,23 +81,15 @@ app.get('/', (req, res) => {
 //rending page for URL output.
 app.get('/urls', function(req, res){
   app.locals.urlIndex = urlIndex;
-  res.render('pages/urlList');
+  res.render('urlList');
 });
 
 //rending page for adding new URLs
 app.get('/urls/new', function(req, res){
   app.locals.urlIndex = urlIndex;
-  res.render('pages/newUrl');
+  res.render('newUrl');
 });
-//posting form data to the URLS page
-app.post('/urls', function(req, res){
-  let newUrl = req.body.inputField;
-  let key = makeId();
-  app.locals.urlIndex = urlIndex;
-  urlIndex[key] = newUrl;
-  res.redirect('/urls/' + key)
 
-});
 
 app.get('/urls/:id', function(req, res){
   let key = req.params.id;
@@ -95,11 +97,40 @@ app.get('/urls/:id', function(req, res){
   let value = getUrlValue(urlIndex, key);
   app.locals.value = value;
   if (value != undefined) {
-    res.render('pages/urlpage');
+    res.render('urlpage');
   } else {
-    res.render('pages/404');
+    res.render('404');
   }
 });
+
+
+//if there is a shortened URL present it will redirect to the correct website, or else will bring them to a 404 page.
+app.get('/u/:id', function(req, res){
+    let url = req.params.id;
+    
+    let external = (getUrlValue(urlIndex, url));
+    if (external != undefined) {
+      res.redirect(external);
+    } else {
+      res.render('404');
+    }
+});
+
+app.get('/login', function(req, res){
+  res.render('login');
+});
+
+// POST REQUESTS
+//posting form data to the URLS page
+app.post('/urls', function(req, res){
+  let newUrl = req.body.url;
+  let key = makeId();
+  app.locals.urlIndex = urlIndex;
+  urlIndex[key] = newUrl;
+  res.redirect('/urls/' + key)
+
+});
+
 //deleting URLs
 app.post('/urls/:id/delete', function(req, res){
   app.locals.urlIndex = urlIndex;
@@ -108,6 +139,7 @@ app.post('/urls/:id/delete', function(req, res){
   delete urlIndex[key];
   res.redirect('/urls');
 });
+
 //posting url updates
 app.post('/urls/:id', function(req, res){
   let key = req.params.id;
@@ -118,26 +150,22 @@ app.post('/urls/:id', function(req, res){
 
 });
 
-//login page
-app.get('/login', function(req, res){
-  res.render('pages/login'); 
-});
+app.post('/login', function(req, res){
+  const username = req.body.username;
+  const password = req.body.password; 
 
-//if there is a shortened URL present it will redirect to the correct website, or else will bring them to a 404 page.
-app.get('/u/:id', function(req, res){
-    let url = req.params.id;
+  if (pw = userExists(username)){
+    if (passCheck(pw, password)){
+      res.redirect('/urls');
+    }else {
+      res.render('login');
+    };
+
+  }else {
     
-    let external = (getUrlValue(urlIndex, url));
-    if (external != undefined) {
-      res.redirect(external);
-    } else {
-      res.render('pages/404');
-    }
+  };
+ 
 });
-
-
-
-
 
 app.listen(port, () => {
   console.log(`URL Shortener App is listening on port ${port}`)
