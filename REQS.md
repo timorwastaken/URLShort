@@ -25,17 +25,17 @@
     - [x] a short URL
     - [x] the short URL's matching long URL
     - [x] an edit button which allows you to edit.
-    - [ ] a delete button which makes a POST request to `/urls/:id/delete`
+    - [x] a delete button which makes a POST request to `/urls/:id/delete`
     - [ ] (Stretch) the date the short URL was created
     - [ ] (Stretch) the number of times the short URL was visited
     - [ ] (Stretch) the number of unique visits for the short URL
-    - [ ] (Minor) a link to "Create a New Short Link" which makes a GET request to `/urls/new`
+    - [x] (Minor) a link to "Create a New Short Link" which makes a GET request to `/urls/new`
   - If user is not logged in:
     - [ ] returns HTML with a relevant error message
 - `GET /urls/new`
   - If user is logged in:
     - [x] returns HTML with:
-    - [ ] the site header (see Display Requirements above)
+    - [x] the site header (see Display Requirements above)
     - [x] a form which contains:
       - [x] a text input field for the original (long) URL
       - [x] a submit button which makes a POST request to `/urls/`
@@ -55,7 +55,7 @@
   - if a URL for the given ID does not exist
     - [x] (Minor) returns HTML with a relevant error message
   - if user is not logged in:
-    - [ ] returns HTML with a relevant error message
+    - [x] returns HTML with a relevant error message
   - if user is logged in but does not own the URL with the given ID:
     - [ ] returns HTML with a relevant error message
 - `GET /u/:id`
@@ -71,16 +71,16 @@
     - [ ] (Minor) returns HTML with a relevant error message
 - `POST /urls/:id`
   - if user is logged in and owns the URL for the given ID:
-    - [ ] updates the URL
-    - [ ] redirects to `/urls`
+    - [x] updates the URL
+    - [x] redirects to `/urls`
   - if user is not logged in:
     - [ ] (Minor) returns HTML with a relevant error message
   - if user is logged in but does not own the URL for the given ID:
     - [ ] (Minor) returns HTML with a relevant error message
 - `POST /urls/:id/delete`
   - if user is logged in and owns the URL for the given ID:
-    - [ ] deletes the URL
-    - [ ] redirects to `/urls`
+    - [x] deletes the URL
+    - [x] redirects to `/urls`
   - if user is not logged in:
     - [ ] (Minor) returns HTML with a relevant error message
   - if user is logged in but does not own the URL for the given ID:
