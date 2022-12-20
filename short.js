@@ -1,9 +1,10 @@
 const express = require('express');
 const bodyParser = require('body-parser');
 const app = express();
-const port = 3000;
 const cookieParser = require('cookie-parser');
 let logInCheck = false;
+
+const PORT = 3000;
 
 app.set('view engine','ejs');
 
@@ -157,6 +158,7 @@ app.post('/login', function(req, res){
 
 });
 
-app.listen(port, () => {
-  console.log(`URL Shortener App is listening on port ${port}`)
+app.listen(PORT, () => {
+  console.log(`URL Shortener App is listening on port ${PORT}`)
+  console.log(`Visit it at http://localhost:${PORT}`)
 });
