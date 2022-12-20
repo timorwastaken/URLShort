@@ -104,14 +104,14 @@ app.get('/urls/:id', function(req, res){
 
 //if there is a shortened URL present it will redirect to the correct website, or else will bring them to a 404 page.
 app.get('/u/:id', function(req, res){
-    const shortUrl = req.params.id;
+  const shortUrl = req.params.id;
 
-    const external = getUrlFromShort(shortUrl);
-    if (external != undefined) {
-      res.redirect(external);
-    } else {
-      res.render('404');
-    }
+  const external = getUrlFromShort(shortUrl);
+  if (external != undefined) {
+    res.redirect(external);
+  } else {
+    res.render('404');
+  }
 });
 
 app.get('/login', function(req, res){
