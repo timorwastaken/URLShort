@@ -11,17 +11,15 @@ app.set('view engine','ejs');
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended: true}));
 
-//function to get the key and output the value.
-function getUrlValue(obj, key) {
-  return Object.values(obj).find(value => obj[key] === value);;
-};
+const getUrlFromShort = (shortUrl) => urlIndex[shortUrl];
+
 //function to check if user exists
 function userExists(username) {
   if (username in users) {
       return users[username];
   }else {
     return false;
-  }; 
+  };
 };
 //function to check if username is valid
 function passCheck(userPassword, loginPassword) {
@@ -68,7 +66,7 @@ const users = {
 
 
 // GET REQUESTS
-//checks if user is logged in if not redirects them to log in page. 
+//checks if user is logged in if not redirects them to log in page.
 //If they are it will show them the url list.
 app.get('/', (req, res) => {
   if (logInCheck == false){
@@ -92,9 +90,9 @@ app.get('/urls/new', function(req, res){
 
 
 app.get('/urls/:id', function(req, res){
-  let key = req.params.id;
+  const shortUrl = req.params.id;
   app.locals.key = key;
-  let value = getUrlValue(urlIndex, key);
+  const value = getUrlFromShort(shortUrl);
   app.locals.value = value;
   if (value != undefined) {
     res.render('urlpage');
@@ -106,9 +104,9 @@ app.get('/urls/:id', function(req, res){
 
 //if there is a shortened URL present it will redirect to the correct website, or else will bring them to a 404 page.
 app.get('/u/:id', function(req, res){
-    let url = req.params.id;
-    
-    let external = (getUrlValue(urlIndex, url));
+    const shortUrl = req.params.id;
+
+    const external = getUrlFromShort(shortUrl);
     if (external != undefined) {
       res.redirect(external);
     } else {
@@ -152,7 +150,7 @@ app.post('/urls/:id', function(req, res){
 
 app.post('/login', function(req, res){
   const username = req.body.username;
-  const password = req.body.password; 
+  const password = req.body.password;
 
   if (pw = userExists(username)){
     if (passCheck(pw, password)){
@@ -162,9 +160,9 @@ app.post('/login', function(req, res){
     };
 
   }else {
-    
+
   };
- 
+
 });
 
 app.listen(port, () => {
